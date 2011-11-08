@@ -1,0 +1,3 @@
+api.bodhilinux.com
+
+Is the authentication and profile extension system for the bodhi linux project. This bridge return json messages for valid authentication or profile requests made to it. It will also in the future handle appcenter requests for custom UIs, mixed feeds etc.
