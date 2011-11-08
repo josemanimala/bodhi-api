@@ -4,21 +4,22 @@ ini_set('display_errors','On');
 error_reporting(E_ALL);
 
 #handle file loading
-include('./lib/IPBLoad.php');
-include('./lib/render.php');
+include('/home/jose/public_html/lib/IPBLoad.php');
+include('/home/jose/public_html/lib/render.php');
 #add apikey here
-include('../secure/apiKey.php');
+include('/home/jose/secure/apiKey.php');
 
 #create render object
 function renderOutput($stat,$val)
 {
 	$render = new render();
 	print_r($render->renderJson($val,$stat));
+	exit();
 }
 
 #load the apikey
 $apiKey = new apiKey();
-$keyChain = $apiKey->apiKey;
+$keyChain = $apiKey->getKey();
 #check for api key in post
 $requestKey='';
 if(isset($_POST['apiKey']) && !empty($_POST['apiKey'])){$requestKey = $_POST['apiKey'];}else{$val=array("Error"=>"Api key required for access.");$stat='error'; renderOutput($stat,$val);}
@@ -27,7 +28,7 @@ $username='';
 $password='';
 $method='';
 #check the validity of the apikey
-if(in_array($requestKey,$keyChain));
+if(in_array($requestKey,$keyChain))
 {
 	#Load IPB functions class
 	$ipbLoad = new IPBLoad();
@@ -38,7 +39,7 @@ if(in_array($requestKey,$keyChain));
 	{
 		#check for post variables
 		if(isset($_POST['username']) && !empty($_POST['username'])){$username = $_POST['username'];}else{$val=array("Error"=>"Required parameters not set");$stat='error';renderOutput($stat,$val);}
-		if(isset($_POST['password']) && !empty($_POST['password']))$password = $_POST['password'];}else{$val=array("Error"=>"Required parameters not set");$stat='error';renderOutput($stat,$val);}
+		if(isset($_POST['password']) && !empty($_POST['password'])){$password = $_POST['password'];}else{$val=array("Error"=>"Required parameters not set");$stat='error';renderOutput($stat,$val);}
 		$val = $ipbLoad->authenticateMember($username,md5($password));
 		if($val==true)
 		{
@@ -54,12 +55,11 @@ if(in_array($requestKey,$keyChain));
 		}
 		
 	}
-	#load function
-	elseif($method=='load')
+	elseif($method=='load')#load function
 	{
 		#check the post variables
 		if(isset($_POST['username']) && !empty($_POST['username'])){$username = $_POST['username'];}else{$val=array("Error"=>"Required parameters not set");$stat='error';renderOutput($stat,$val);}
-		if(isset($_POST['password']) && !empty($_POST['password']))$password = $_POST['password'];}else{$val=array("Error"=>"Required parameters not set");$stat='error';renderOutput($stat,$val);}
+		if(isset($_POST['password']) && !empty($_POST['password'])){$password = $_POST['password'];}else{$val=array("Error"=>"Required parameters not set");$stat='error';renderOutput($stat,$val);}
 		$val = $ipbLoad->loadMember($username,md5($password));
 		if($val==0)
 		{
@@ -74,11 +74,11 @@ if(in_array($requestKey,$keyChain));
 	}
 	else
 	{
-		val=array("Error"=>"method not found.");$stat='error';renderOutput($stat,$val);
+		$val=array("Error"=>"method not found.");$stat='error';renderOutput($stat,$val);
 	}
 }
 else
 {
-	val=array("Error"=>"Invalid api key. Contact the bodhi web development team.");$stat='error';renderOutput($stat,$val);
+	$val=array("Error"=>"Invalid api key. Contact the bodhi web development team.");$stat='error';renderOutput($stat,$val);
 }
 ?>
