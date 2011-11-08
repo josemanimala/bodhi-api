@@ -4,10 +4,10 @@ ini_set('display_errors','On');
 error_reporting(E_ALL);
 
 #handle file loading
-include('/home/jose/public_html/lib/IPBLoad.php');
-include('/home/jose/public_html/lib/render.php');
+include('./lib/IPBLoad.php');
+include('./lib/render.php');
 #add apikey here
-include('/home/jose/secure/apiKey.php');
+include('./lib/apiKey.php');
 
 #create render object
 function renderOutput($stat,$val)
