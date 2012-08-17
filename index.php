@@ -3,6 +3,8 @@
 ini_set('display_errors','On'); 
 error_reporting(E_ALL);
 
+print "Hello world";
+
 #handle file loading
 include('./lib/IPBLoad.php');
 include('./lib/render.php');
